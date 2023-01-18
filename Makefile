@@ -3,13 +3,13 @@
 GO=CGO_ENABLED=0 GO111MODULE=on go
 GOCGO=CGO_ENABLED=1 GO111MODULE=on go
 
-MICROSERVICES=cmd/device-os/device-os
+MICROSERVICES=cmd/device-system-performance/device-system-performance
 .PHONY: $(MICROSERVICES)
 
 VERSION=$(shell cat ./VERSION 2>/dev/null || echo 0.0.0)
 DOCKER_TAG=$(VERSION)-dev
 
-GOFLAGS=-ldflags "-X github.com/edgexfoundry/device-os.Version=$(VERSION)"
+GOFLAGS=-ldflags "-X github.com/edgexfoundry/device-system-performance.Version=$(VERSION)"
 GOTESTFLAGS?=-race
 
 GIT_SHA=$(shell git rev-parse HEAD)
@@ -17,16 +17,16 @@ GIT_SHA=$(shell git rev-parse HEAD)
 build: $(MICROSERVICES)
 	$(GOCGO) install -tags=safe
 
-cmd/device-os/device-os:
+cmd/device-system-performance/device-system-performance:
 	go mod tidy
-	$(GOCGO) build $(GOFLAGS) -o $@ ./cmd/device-os
+	$(GOCGO) build $(GOFLAGS) -o $@ ./cmd/device-system-performance
 
 docker:
 	docker build \
-		-f example/cmd/device-os/Dockerfile \
+		-f example/cmd/device-system-performance/Dockerfile \
 		--label "git_sha=$(GIT_SHA)" \
-		-t edgexfoundry/device-os:$(GIT_SHA) \
-		-t edgexfoundry/device-os:$(DOCKER_TAG) \
+		-t edgexfoundry/device-system-performance:$(GIT_SHA) \
+		-t edgexfoundry/device-system-performance:$(DOCKER_TAG) \
 		.
 
 test:

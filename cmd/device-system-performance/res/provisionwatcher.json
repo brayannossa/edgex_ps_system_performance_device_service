@@ -13,7 +13,7 @@
 
   },
   "service":{
-    "name":"device-os"
+    "name":"device-system-performance"
   },
   "adminState": "UNLOCKED"
 }

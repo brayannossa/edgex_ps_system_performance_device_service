@@ -1,10 +1,10 @@
 apiVersion: "v2"
-name: "OS-Device-Profile"
+name: "System-Performance-Profile"
 manufacturer: "Simple Corp."
 model: "SP-01"
 labels:
-  - "OS commands"
-description: "OS Device"
+  - "System performance commands"
+description: "System performance profile"
 
 deviceResources:
   -

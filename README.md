@@ -1,6 +1,6 @@
-# device-os
+# device-system-performance
 
-The included device-os example device service demonstrates basic usage of device-sdk-go.
+The included device-system-performance example device service demonstrates basic usage of device-sdk-go.
 
 ## Protocol Driver
 
@@ -30,10 +30,10 @@ A candidate new device passes a ProvisionWatcher if all of the Identifiers match
 For devices with multiple `Device.Protocol`s, each `Device.Protocol` is considered separately. A match on any of the protocols results in the device being added.
 
 Finally, A boolean configuration value `Device/Discovery/Enabled` defaults to false. If it is set true, and the DS implementation supports discovery, discovery is enabled.
-Dynamic Device Discovery is triggered either by internal timer(see `Device/Discovery/Interval` in [configuration.toml](cmd/device-os/res/configuration.toml)) or by a call to the device service's `/discovery` REST endpoint.
+Dynamic Device Discovery is triggered either by internal timer(see `Device/Discovery/Interval` in [configuration.toml](cmd/device-system-performance/res/configuration.toml)) or by a call to the device service's `/discovery` REST endpoint.
 
-The following steps show how to trigger discovery on device-os:
-1. Set `Device/Discovery/Enabled` to true in [configuration file](cmd/device-os/res/configuration.toml)
-2. Post the [provided provisionwatcher](cmd/device-os/res/provisionwatcher.json) into core-metadata endpoint: http://edgex-core-metadata:59881/api/v1/provisionwatcher
-3. Trigger discovery by sending POST request to DS endpoint: http://edgex-device-os:59999/api/v1/discovery
+The following steps show how to trigger discovery on device-system-performance:
+1. Set `Device/Discovery/Enabled` to true in [configuration file](cmd/device-system-performance/res/configuration.toml)
+2. Post the [provided provisionwatcher](cmd/device-system-performance/res/provisionwatcher.json) into core-metadata endpoint: http://edgex-core-metadata:59881/api/v1/provisionwatcher
+3. Trigger discovery by sending POST request to DS endpoint: http://edgex-device-system-performance:59999/api/v1/discovery
 4. `Simple-Device02` will be discovered and added to EdgeX.

@@ -1,8 +1,8 @@
 [[DeviceList]]
-  Name = 'OS-Device01'
-  ProfileName = 'OS-Device-Profile'
-  Description = 'OS Device'
-  Labels = [ 'OS' ]
+  Name = 'System-Performance-Device01'
+  ProfileName = 'System-Performance-Profile'
+  Description = 'System performance device'
+  Labels = [ 'System performance' ]
   [DeviceList.Protocols]
   [DeviceList.Protocols.other]
     Address = 'simple01'

@@ -46,7 +46,7 @@ PublishTopicPrefix = 'edgex/events/device' # /<device-profile-name>/<device-name
   [MessageQueue.Optional]
   # Default MQTT Specific options that need to be here to enable environment variable overrides of them
   # Client Identifiers
-  ClientId = "device-os"
+  ClientId = "device-system-performance"
   # Connection information
   Qos = "0" # Quality of Sevice values are 0 (At most once), 1 (At least once) or 2 (Exactly once)
   KeepAlive = "10" # Seconds (must be 2 or greater)
@@ -57,17 +57,17 @@ PublishTopicPrefix = 'edgex/events/device' # /<device-profile-name>/<device-name
 
 # Example SecretStore configuration.
 # Only used when EDGEX_SECURITY_SECRET_STORE=true
-# Must also add `ADD_SECRETSTORE_TOKENS: "device-os"` to vault-worker environment so it generates
-# the token and secret store in vault for 'device-os'
+# Must also add `ADD_SECRETSTORE_TOKENS: "device-system-performance"` to vault-worker environment so it generates
+# the token and secret store in vault for 'device-system-performance'
 [SecretStore]
 Type = 'vault'
 Host = 'localhost'
 Port = 8200
-Path = 'device-os/'
+Path = 'device-system-performance/'
 Protocol = 'http'
 RootCaCertPath = ''
 ServerName = ''
-TokenFile = '/tmp/edgex/secrets/device-os/secrets-token.json'
+TokenFile = '/tmp/edgex/secrets/device-system-performance/secrets-token.json'
   [SecretStore.Authentication]
   AuthType = 'X-Vault-Token'
 

@@ -1,4 +1,4 @@
-module github.com/edgexfoundry/device-os
+module github.com/edgexfoundry/device-system-performance
 
 go 1.16
 

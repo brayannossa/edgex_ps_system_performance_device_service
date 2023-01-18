@@ -17,7 +17,7 @@
 ARG BASE=golang:1.16-alpine3.12
 FROM ${BASE} AS builder
 
-WORKDIR /device-os
+WORKDIR /device-system-performance
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
   copyright='Copyright (c) 2020: Intel'
@@ -42,11 +42,11 @@ RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/reposi
 RUN apk add --update --no-cache zeromq iperf
 
 WORKDIR /
-COPY --from=builder /device-os/cmd/device-os/Attribution.txt /Attribution.txt
-COPY --from=builder /device-os/cmd/device-os/device-os /device-os
-COPY --from=builder /device-os/cmd/device-os/res/ /res
+COPY --from=builder /device-system-performance/cmd/device-system-performance/Attribution.txt /Attribution.txt
+COPY --from=builder /device-system-performance/cmd/device-system-performance/device-system-performance /device-system-performance
+COPY --from=builder /device-system-performance/cmd/device-system-performance/res/ /res
 
 EXPOSE 59985
 
-ENTRYPOINT ["/device-os"]
+ENTRYPOINT ["/device-system-performance"]
 CMD ["-cp=consul.http://edgex-core-consul:8500", "--registry", "--confdir=/res"]

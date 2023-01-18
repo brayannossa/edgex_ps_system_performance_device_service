@@ -42,11 +42,11 @@ RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/reposi
 RUN apk add --update --no-cache zeromq
 
 WORKDIR /
-COPY --from=builder /device-sdk-go/example/cmd/device-os/Attribution.txt /Attribution.txt
-COPY --from=builder /device-sdk-go/example/cmd/device-os/device-os /device-os
-COPY --from=builder /device-sdk-go/example/cmd/device-os/res/ /res
+COPY --from=builder /device-sdk-go/example/cmd/device-system-performance/Attribution.txt /Attribution.txt
+COPY --from=builder /device-sdk-go/example/cmd/device-system-performance/device-system-performance /device-system-performance
+COPY --from=builder /device-sdk-go/example/cmd/device-system-performance/res/ /res
 
 EXPOSE 59999
 
-ENTRYPOINT ["/device-os"]
+ENTRYPOINT ["/device-system-performance"]
 CMD ["-cp=consul.http://edgex-core-consul:8500", "--registry", "--confdir=/res"]

@@ -9,13 +9,13 @@
 package main
 
 import (
-	"github.com/edgexfoundry/device-os"
-	"github.com/edgexfoundry/device-os/driver"
 	"github.com/edgexfoundry/device-sdk-go/v2/pkg/startup"
+	"github.com/edgexfoundry/device-system-performance"
+	"github.com/edgexfoundry/device-system-performance/driver"
 )
 
 const (
-	serviceName string = "device-os"
+	serviceName string = "device-system-performance"
 )
 
 func main() {
