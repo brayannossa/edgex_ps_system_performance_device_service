@@ -1,0 +1,21 @@
+[[DeviceList]]
+  Name = 'OS-Device01'
+  ProfileName = 'OS-Device-Profile'
+  Description = 'OS Device'
+  Labels = [ 'OS' ]
+  [DeviceList.Protocols]
+  [DeviceList.Protocols.other]
+    Address = 'simple01'
+    Port = '300'
+  [[DeviceList.AutoEvents]]
+    Interval = '30s'
+    OnChange = false
+    SourceName = 'Temperature'
+  [[DeviceList.AutoEvents]]
+    Interval = '10m'
+    OnChange = false
+    SourceName = 'RAM'
+  [[DeviceList.AutoEvents]]
+    Interval = '10m'
+    OnChange = false
+    SourceName = 'InternetSpeed'

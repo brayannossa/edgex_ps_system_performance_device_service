@@ -1,0 +1,59 @@
+apiVersion: "v2"
+name: "OS-Device-Profile"
+manufacturer: "Simple Corp."
+model: "SP-01"
+labels:
+  - "OS commands"
+description: "OS Device"
+
+deviceResources:
+  -
+    name: "Temperature"
+    isHidden: false
+    description: "Temperature of raspberry"
+    properties:
+        valueType: "Int64"
+        readWrite: "R"
+        units: "°C"
+        defaultValue: 0
+  -
+    name: "RAM"
+    isHidden: false
+    description: "RAM used"
+    properties:
+        valueType: "Float64"
+        readWrite: "R"
+        units: "%"
+        defaultValue: 0
+  -
+    name: "InternetSpeed"
+    isHidden: false
+    description: "Internet speed"
+    properties:
+        valueType: "Float64"
+        readWrite: "R"
+        units: "Mbit/s"
+        defaultValue: 0
+
+
+deviceCommands:
+  -
+    name: "Temperature"
+    isHidden: false
+    readWrite: "R"
+    resourceOperations:
+      - { deviceResource: "Temperature", defaultValue: 0}
+
+  -
+    name: "RAM"
+    isHidden: false
+    readWrite: "R"
+    resourceOperations:
+      - { deviceResource: "RAM", defaultValue: 0}
+   
+  -
+    name: "InternetSpeed"
+    isHidden: false
+    readWrite: "R"
+    resourceOperations:
+      - { deviceResource: "InternetSpeed", defaultValue: 0}   
