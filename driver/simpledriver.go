@@ -10,12 +10,7 @@
 package driver
 
 import (
-	"bytes"
 	"fmt"
-	"image"
-	"image/jpeg"
-	"image/png"
-	"os"
 	"os/exec"
 	"reflect"
 	"strconv"
@@ -34,43 +29,7 @@ type SimpleDriver struct {
 	lc            logger.LoggingClient
 	asyncCh       chan<- *sdkModels.AsyncValues
 	deviceCh      chan<- []sdkModels.DiscoveredDevice
-	switchButton  bool
-	xRotation     int32
-	yRotation     int32
-	zRotation     int32
 	serviceConfig *config.ServiceConfig
-}
-
-func getImageBytes(imgFile string, buf *bytes.Buffer) error {
-	// Read existing image from file
-	img, err := os.Open(imgFile)
-	if err != nil {
-		return err
-	}
-	defer img.Close()
-
-	// TODO: Attach MediaType property, determine if decoding
-	//  early is required (to optimize edge processing)
-
-	// Expect "png" or "jpeg" image type
-	imageData, imageType, err := image.Decode(img)
-	if err != nil {
-		return err
-	}
-	// Finished with file. Reset file pointer
-	img.Seek(0, 0)
-	if imageType == "jpeg" {
-		err = jpeg.Encode(buf, imageData, nil)
-		if err != nil {
-			return err
-		}
-	} else if imageType == "png" {
-		err = png.Encode(buf, imageData)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
 }
 
 // Initialize performs protocol-specific initialization for the device

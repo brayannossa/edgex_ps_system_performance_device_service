@@ -1,9 +1,9 @@
 apiVersion: "v2"
 name: "System-Performance-Profile"
-manufacturer: "Simple Corp."
-model: "SP-01"
+manufacturer: "Generic"
+model: "Generic"
 labels:
-  - "System performance commands"
+  - "system performance"
 description: "System performance profile"
 
 deviceResources:
