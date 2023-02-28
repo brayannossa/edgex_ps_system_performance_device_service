@@ -8,6 +8,67 @@ import (
 	"strings"
 )
 
+func CheckTemperature() (int64, string, error) {
+	out, err := exec.Command("cat", "/sys/class/thermal/thermal_zone0/temp").Output()
+	if err != nil {
+		return 0, "", err
+	}
+	outInt, err := (strconv.ParseInt(string(out[:len(out)-1]), 10, 64))
+	temp := int64(outInt / 1000)
+	if err != nil {
+		return 0, "", err
+	}
+	if temp > 60 {
+		return temp, "Hi", err
+	} else if temp < 58 {
+		return temp, "Low", err
+	} else {
+		return 0, "", err
+	}
+
+}
+
+func CheckStorage() (int64, error) {
+	args := "-h"
+	cmd := exec.Command("df", strings.Split(args, " ")...)
+	stdout, err := cmd.StdoutPipe()
+	if err != nil {
+		return 0, err
+	}
+	if err := cmd.Start(); err != nil {
+		return 0, err
+	}
+	buf := bufio.NewReader(stdout)
+	lineNum := 0
+	for {
+		if lineNum > 10 {
+			return 0, nil
+		}
+		line, _, _ := buf.ReadLine()
+
+		vector := strings.Fields(string(line))
+		// vector[0] = s.file
+		// vector[1] = overall size
+		// vector[2] = used size
+		// vector[3] = available size
+		// vector[4] = use %
+		// vector[5] = mounted on
+		if vector[5] == "/" {
+			usedString := strings.Replace(vector[4], "%", "", -1)
+			usedInt, _ := strconv.ParseInt(usedString, 10, 64)
+			fmt.Println("---------------")
+			fmt.Println("Storage")
+			fmt.Println("used:", vector[2])
+			fmt.Println("available", vector[3])
+			fmt.Println("%used", vector[4])
+			fmt.Println("---------------")
+			return usedInt, nil
+		}
+
+		lineNum += 1
+	}
+}
+
 func CheckRAM() (float64, error) {
 	cmd := exec.Command("free")
 	stdout, err := cmd.StdoutPipe()
@@ -80,8 +141,8 @@ func InternetSpeed() (float64, error) {
 
 			fmt.Println("---------------")
 			fmt.Println("Internet Speed")
-			fmt.Println("Download:", downloadSpeed)
-			fmt.Println("Units:", units)
+			fmt.Println("download:", downloadSpeed)
+			fmt.Println("units:", units)
 			fmt.Println("---------------")
 			if units != "Mbits/sec" {
 				return 0, err

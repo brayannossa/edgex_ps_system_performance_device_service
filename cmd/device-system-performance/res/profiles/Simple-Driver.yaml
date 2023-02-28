@@ -17,6 +17,15 @@ deviceResources:
         units: "°C"
         defaultValue: 0
   -
+    name: "Storage"
+    isHidden: false
+    description: "Storage used"
+    properties:
+        valueType: "Int64"
+        readWrite: "R"
+        units: "%"
+        defaultValue: 0        
+  -
     name: "RAM"
     isHidden: false
     description: "RAM used"
@@ -43,6 +52,13 @@ deviceCommands:
     readWrite: "R"
     resourceOperations:
       - { deviceResource: "Temperature", defaultValue: 0}
+
+  -
+    name: "Storage"
+    isHidden: false
+    readWrite: "R"
+    resourceOperations:
+      - { deviceResource: "Storage", defaultValue: 0}
 
   -
     name: "RAM"

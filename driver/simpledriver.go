@@ -11,9 +11,7 @@ package driver
 
 import (
 	"fmt"
-	"os/exec"
 	"reflect"
-	"strconv"
 	"time"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
@@ -26,10 +24,11 @@ import (
 )
 
 type SimpleDriver struct {
-	lc            logger.LoggingClient
-	asyncCh       chan<- *sdkModels.AsyncValues
-	deviceCh      chan<- []sdkModels.DiscoveredDevice
-	serviceConfig *config.ServiceConfig
+	lc             logger.LoggingClient
+	asyncCh        chan<- *sdkModels.AsyncValues
+	deviceCh       chan<- []sdkModels.DiscoveredDevice
+	lastStatusTemp string
+	serviceConfig  *config.ServiceConfig
 }
 
 // Initialize performs protocol-specific initialization for the device
@@ -39,6 +38,7 @@ func (s *SimpleDriver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkMo
 	s.asyncCh = asyncCh
 	s.deviceCh = deviceCh
 	s.serviceConfig = &config.ServiceConfig{}
+	s.lastStatusTemp = ""
 
 	ds := service.RunningService()
 
@@ -97,13 +97,30 @@ func (s *SimpleDriver) HandleReadCommands(deviceName string, protocols map[strin
 	if len(reqs) == 1 {
 		res = make([]*sdkModels.CommandValue, 1)
 		if reqs[0].DeviceResourceName == "Temperature" {
-			out, err := exec.Command("cat", "/sys/class/thermal/thermal_zone0/temp").Output()
+			temp, status, err := CheckTemperature()
+
+			if err == nil {
+				if status != s.lastStatusTemp {
+					s.lastStatusTemp = status
+					fmt.Println("---------------")
+					fmt.Println("Temperature: ", temp, "C")
+					fmt.Println("---------------")
+					cv, _ := sdkModels.NewCommandValue(reqs[0].DeviceResourceName, common.ValueTypeInt64, temp)
+
+					res[0] = cv
+				}
+
+			} else {
+				return nil, err
+			}
+		}
+		if reqs[0].DeviceResourceName == "Storage" {
+			storageUsed, err := CheckStorage()
 			if err != nil {
 				return nil, err
 			}
-			temp, err := (strconv.ParseInt(string(out[:len(out)-1]), 10, 64))
 			if err == nil {
-				cv, _ := sdkModels.NewCommandValue(reqs[0].DeviceResourceName, common.ValueTypeInt64, int64(temp/1000))
+				cv, _ := sdkModels.NewCommandValue(reqs[0].DeviceResourceName, common.ValueTypeInt64, storageUsed)
 				res[0] = cv
 			} else {
 				return nil, err

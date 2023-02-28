@@ -1,5 +1,5 @@
 [[DeviceList]]
-  Name = 'System-Performance-Device01'
+  Name = 'System-Performance'
   ProfileName = 'System-Performance-Profile'
   Description = 'System performance device'
   Labels = [ 'System performance' ]
@@ -11,6 +11,10 @@
     Interval = '30s'
     OnChange = false
     SourceName = 'Temperature'
+  [[DeviceList.AutoEvents]]
+    Interval = '10m'
+    OnChange = false
+    SourceName = 'Storage'
   [[DeviceList.AutoEvents]]
     Interval = '10m'
     OnChange = false
