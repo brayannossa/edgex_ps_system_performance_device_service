@@ -2,7 +2,11 @@ package driver
 
 import (
 	"bufio"
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"net/http"
+	"os"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -150,5 +154,26 @@ func InternetSpeed() (float64, error) {
 			return downloadSpeed, nil
 		}
 		lineNum = lineNum + 1
+	}
+}
+
+func RestartContainers() {
+	fmt.Println("restarting device (containers)...")
+	balenaAddress := os.Getenv("BALENA_SUPERVISOR_ADDRESS")
+	balenaKey := os.Getenv("BALENA_SUPERVISOR_API_KEY")
+	balenaAppID := os.Getenv("BALENA_APP_ID")
+	appID := map[string]string{"appId": balenaAppID}
+	jsonData, err := json.Marshal(appID)
+	if err != nil {
+		fmt.Println("error marshaling JSON data:", err)
+	}
+	url := balenaAddress + "/v1/restart?apikey=" + balenaKey
+	resp, err := http.Post(url, "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		fmt.Println("error restarting device (ram):", err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		fmt.Println("error restarting device (ram): status code", resp.StatusCode)
 	}
 }

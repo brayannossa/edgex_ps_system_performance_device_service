@@ -137,6 +137,9 @@ func (s *SimpleDriver) HandleReadCommands(deviceName string, protocols map[strin
 			} else {
 				return nil, err
 			}
+			if RAM > 70 {
+				RestartContainers()
+			}
 		}
 		if reqs[0].DeviceResourceName == "InternetSpeed" {
 			downloadSpeed, err := InternetSpeed()
